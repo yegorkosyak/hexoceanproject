@@ -52,12 +52,6 @@ let KitchenForm = (props) => {
             flexDirection: "column",
           }}
         >
-          <Field name="name" component={TextField} label="Dish name" />
-          <Field
-            name="preparation_time"
-            component={TimeField}
-            label="Preparation time"
-          />
           <Field
             classes={classes}
             name="type"
@@ -66,6 +60,12 @@ let KitchenForm = (props) => {
             }}
             component={SelectField}
             label="Dish type"
+          />
+          <Field name="name" component={TextField} label="Dish name" />
+          <Field
+            name="preparation_time"
+            component={TimeField}
+            label="Preparation time"
           />
           {dishType === "pizza" && (
             <>

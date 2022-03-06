@@ -2,6 +2,8 @@ import { FormControl, Select, InputLabel } from "@mui/material";
 
 import { formHelper } from "@helpers/formHelper";
 
+import "./Field.scss";
+
 export const SelectField = ({
   input,
   label,
@@ -9,8 +11,10 @@ export const SelectField = ({
   options,
   ...custom
 }) => (
-  <FormControl fullWidth error={touched && error}>
-    <InputLabel htmlFor="dish-type">{label}</InputLabel>
+  <FormControl className="form-control" fullWidth error={touched && error}>
+    <InputLabel className="select-label" htmlFor="dish-type">
+      {label}
+    </InputLabel>
     <Select
       variant="standard"
       native

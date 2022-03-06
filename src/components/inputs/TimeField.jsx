@@ -16,7 +16,17 @@ export const TimeField = ({
       views={["hours", "minutes", "seconds"]}
       inputFormat="HH:mm:ss"
       mask="__:__:__"
-      renderInput={(params) => <MuiTextField variant="standard" {...params} />}
+      renderInput={(params) => {
+        console.log(params);
+        return (
+          <MuiTextField
+            variant="standard"
+            {...params}
+            error={touched && invalid}
+            helperText={touched && error}
+          />
+        );
+      }}
       {...input}
       {...custom}
     />

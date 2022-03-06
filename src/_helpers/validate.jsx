@@ -17,7 +17,7 @@ export const validate = (values) => {
     requiredFields = ["name", "preparation_time", "type"];
   }
   requiredFields.forEach((field) => {
-    if (!values[field]) {
+    if (!values[field] || values[field]?.length === 0) {
       errors[field] = "Required";
     }
   });

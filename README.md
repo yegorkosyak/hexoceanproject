@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+<!-- # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm start / yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -43,4 +43,35 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn React, check out the [React documentation](https://reactjs.org/). -->
+
+## Table of contents
+
+- [General info](#general-info)
+- [Technologies](#technologies)
+- [Setup](#setup)
+
+## General info
+
+This project is simple food ordering form HexOcean recruitment process
+
+## Technologies
+
+Project is created with:
+
+- React version: "11.8.1"
+- Material-UI version: "5.4.4"
+- Redux version: "4.1.2"
+- Redux-form: "8.3.8"
+- Sass: "1.49.9"
+- Typescript: "4.6.2"
+
+## Setup
+
+To run this project, install it locally using npm:
+
+```
+$ cd ../lorem
+$ npm install
+$ npm start
+```
