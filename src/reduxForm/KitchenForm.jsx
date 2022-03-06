@@ -1,14 +1,16 @@
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import {
+  FormControl,
+  Select,
+  InputLabel,
+  FormHelperText,
+} from "@material-ui/core";
 import TimePicker from "@mui/lab/TimePicker";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import asyncValidate from "../_services/asyncValidate";
+
+import { TextField } from "@components/inputs/TextField";
+
+import asyncValidate from "@services/asyncValidate";
 import { SubmitKitchenForm } from "../api/submission";
 
 const validate = (values) => {
@@ -22,48 +24,30 @@ const validate = (values) => {
   return errors;
 };
 
-const renderTextField = ({
-  label,
-  input,
-  meta: { touched, invalid, error },
-  ...custom
-}) => (
-  <TextField
-    label={label}
-    placeholder={label}
-    error={touched && invalid}
-    helperText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
-
 const renderTimeField = ({
   label,
   input,
   meta: { touched, invalid, error },
   ...custom
 }) => (
-  <LocalizationProvider dateAdapter={AdapterDateFns}>
-    <TimePicker
-      label={label}
-      placeholder={label}
-      error={touched && invalid}
-      helperText={touched && error}
-      ampm={false}
-      openTo="hours"
-      views={["hours", "minutes", "seconds"]}
-      inputFormat="HH:mm:ss"
-      mask="__:__:__"
-      value="number"
-      // onChange={(newValue) => {
-      //   setValue(newValue);
-      // }}
-      renderInput={(params) => <TextField {...params} />}
-      {...input}
-      {...custom}
-    />
-  </LocalizationProvider>
+  <TimePicker
+    label={label}
+    placeholder={label}
+    error={touched && invalid}
+    helperText={touched && error}
+    ampm={false}
+    openTo="hours"
+    views={["hours", "minutes", "seconds"]}
+    inputFormat="HH:mm:ss"
+    mask="__:__:__"
+    value="number"
+    // onChange={(newValue) => {
+    //   setValue(newValue);
+    // }}
+    renderInput={(params) => <TextField {...params} />}
+    {...input}
+    {...custom}
+  />
 );
 
 const renderFromHelper = ({ touched, error }) => {
@@ -106,7 +90,7 @@ let KitchenForm = (props) => {
   return (
     <form onSubmit={handleSubmit(SubmitKitchenForm)}>
       <div>
-        <Field name="name" component={renderTextField} label="Dish name" />
+        <Field name="name" component={TextField} label="Dish name" />
       </div>
       <div>
         <Field
@@ -133,7 +117,7 @@ let KitchenForm = (props) => {
         <div>
           <Field
             name="no_of_slices"
-            component={renderTextField}
+            component={TextField}
             label="Number of slices"
             type="number"
           />

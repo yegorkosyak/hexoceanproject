@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,21 +17,14 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["./src/_assets/*"],
-      "@context/*": ["./src/_context/*"],
-      "@helpers/*": ["./src/_helpers/*"],
       "@services/*": ["./src/_services/*"],
       "@styles/*": ["./src/_styles/*"],
-      "@utils/*": ["./src/_utils/*"],
       "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
-      "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"],
-      "@redux/*": ["./src/redux/*"],
-      "@dev/*": ["./src/_devOnly/*"]
+      "@redux/*": ["./src/redux/*"]
     }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["/*.js", "/*.jsx"],
+  "exclude": ["node_modules"]
 }
