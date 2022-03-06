@@ -68,10 +68,11 @@ Project is created with:
 
 ## Setup
 
-To run this project, install it locally using npm:
+To run this project, install it locally using yarn type in your console:
 
 ```
-$ cd ../lorem
-$ npm install
-$ npm start
+$ git clone https://github.com/yegorkosyak/hexoceanproject.git
+$ cd hexoceanproject
+$ yarn install
+$ yarn start
 ```
