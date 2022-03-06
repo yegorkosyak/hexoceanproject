@@ -5,12 +5,12 @@ export async function SubmitKitchenForm(data: any) {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
-      credentials: "same-origin", // include, *same-origin, omit
+      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
       body: JSON.stringify(data),
     }
   );

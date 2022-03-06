@@ -1,161 +1,154 @@
+import { useState } from "react";
+
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import {
-  FormControl,
-  Select,
-  InputLabel,
-  FormHelperText,
-} from "@material-ui/core";
-import TimePicker from "@mui/lab/TimePicker";
+import { Box, Stack, Button } from "@mui/material";
 
 import { TextField } from "@components/inputs/TextField";
+import { TimeField } from "@components/inputs/TimeField";
+import { SelectField } from "@components/inputs/SelectField";
+import { SliderField } from "@components/inputs/SliderField";
 
-import asyncValidate from "@services/asyncValidate";
+import { FormTable } from "@components/tables/FormTable";
+
+import { validate } from "@helpers/validate";
+
 import { SubmitKitchenForm } from "../api/submission";
 
-const validate = (values) => {
-  const errors = {};
-  const requiredFields = ["name", "preparation_time", "type"];
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = "Required";
-    }
-  });
-  return errors;
-};
-
-const renderTimeField = ({
-  label,
-  input,
-  meta: { touched, invalid, error },
-  ...custom
-}) => (
-  <TimePicker
-    label={label}
-    placeholder={label}
-    error={touched && invalid}
-    helperText={touched && error}
-    ampm={false}
-    openTo="hours"
-    views={["hours", "minutes", "seconds"]}
-    inputFormat="HH:mm:ss"
-    mask="__:__:__"
-    value="number"
-    // onChange={(newValue) => {
-    //   setValue(newValue);
-    // }}
-    renderInput={(params) => <TextField {...params} />}
-    {...input}
-    {...custom}
-  />
-);
-
-const renderFromHelper = ({ touched, error }) => {
-  if (!(touched && error)) {
-    return;
-  } else {
-    return <FormHelperText>{touched && error}</FormHelperText>;
-  }
-};
-
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  children,
-  ...custom
-}) => (
-  <FormControl error={touched && error}>
-    <InputLabel htmlFor="dish-type">{label}</InputLabel>
-    <Select
-      native
-      {...input}
-      {...custom}
-      inputProps={{
-        name: input.name,
-        id: "dish-type",
-      }}
-    >
-      {children}
-    </Select>
-    {renderFromHelper({ touched, error })}
-  </FormControl>
-);
-
-// const handleSubmit = SubmitKitchenForm();
+const options = ["", "pizza", "soup", "sandwich"];
 
 let KitchenForm = (props) => {
+  const [subResponse, setSubResponse] = useState("");
+
   const { dishType, handleSubmit, pristine, reset, submitting, classes } =
     props;
+
+  async function _SubmitKitchenForm(data) {
+    data.preparation_time = data.preparation_time.toLocaleString("pl", {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+    if (data.no_of_slices) {
+      data.no_of_slices = +data.no_of_slices;
+      data.diameter = +data.diameter;
+    }
+    if (data.spiciness_scale) {
+      data.spiciness_scale = +data.spiciness_scale;
+    }
+    if (data.slices_of_bread) {
+      data.slices_of_bread = +data.slices_of_bread;
+    }
+    console.log(data);
+    let response = await SubmitKitchenForm(data);
+    setSubResponse(response);
+  }
   return (
-    <form onSubmit={handleSubmit(SubmitKitchenForm)}>
-      <div>
-        <Field name="name" component={TextField} label="Dish name" />
-      </div>
-      <div>
-        <Field
-          name="preparation_time"
-          component={renderTimeField}
-          label="Preparation time"
-        />
-      </div>
-      <div>
-        <Field
-          classes={classes}
-          name="type"
-          component={renderSelectField}
-          label="Dish type"
+    <>
+      <form onSubmit={handleSubmit(_SubmitKitchenForm)}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          <option value="" />
-          <option value={"pizza"}>Pizza</option>
-          <option value={"soup"}>Soup</option>
-          <option value={"sandwich"}>Sandwich</option>
-        </Field>
-      </div>
-      <div />
-      {dishType === "pizza" && (
-        <div>
+          <Field name="name" component={TextField} label="Dish name" />
           <Field
-            name="no_of_slices"
-            component={TextField}
-            label="Number of slices"
-            type="number"
+            name="preparation_time"
+            component={TimeField}
+            label="Preparation time"
           />
-        </div>
+          <Field
+            classes={classes}
+            name="type"
+            props={{
+              options: options,
+            }}
+            component={SelectField}
+            label="Dish type"
+          />
+          {dishType === "pizza" && (
+            <>
+              <Field
+                name="no_of_slices"
+                component={TextField}
+                label="Number of slices"
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+              />
+              <Field
+                name="diameter"
+                component={TextField}
+                label="Diameter of pizza"
+                type="number"
+                InputProps={{ inputProps: { min: 0, step: 0.1 } }}
+              />
+            </>
+          )}
+          {dishType === "soup" && (
+            <Box
+              sx={{
+                padding: "1em 0",
+              }}
+            >
+              <Field
+                name="spiciness_scale"
+                component={SliderField}
+                label="Spiciness scale"
+              />
+            </Box>
+          )}
+          {dishType === "sandwich" && (
+            <Field
+              name="slices_of_bread"
+              component={TextField}
+              label="Number of slices of bread"
+              type="number"
+              InputProps={{ inputProps: { min: 1 } }}
+            />
+          )}
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}
+            padding={2}
+          >
+            <Button
+              type="submit"
+              disabled={pristine || submitting}
+              variant="contained"
+            >
+              Submit
+            </Button>
+            <Button
+              type="button"
+              disabled={pristine || submitting}
+              onClick={reset}
+              variant="outlined"
+            >
+              Clear Values
+            </Button>
+          </Stack>
+        </Box>
+      </form>
+      {subResponse && (
+        <Box>
+          <FormTable data={subResponse} />
+        </Box>
       )}
-      <div>
-        <button type="submit" disabled={pristine || submitting}>
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
-      </div>
-    </form>
+    </>
   );
 };
 
 KitchenForm = reduxForm({
   form: "kitchenForm",
   validate,
-  asyncValidate,
 })(KitchenForm);
 
 const selector = formValueSelector("kitchenForm");
 KitchenForm = connect((state) => {
   const dishType = selector(state, "type");
-  const time = selector(state, "preparation_time");
-  console.log(
-    time &&
-      time
-        .toLocaleString("en-US", {
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-        })
-        .slice(0, -3)
-  );
-  console.log(state);
   return {
     dishType,
   };
