@@ -39,7 +39,6 @@ let KitchenForm = (props) => {
     if (data.slices_of_bread) {
       data.slices_of_bread = +data.slices_of_bread;
     }
-    console.log(data);
     let response = await SubmitKitchenForm(data);
     setSubResponse(response);
   }
@@ -50,6 +49,8 @@ let KitchenForm = (props) => {
           sx={{
             display: "flex",
             flexDirection: "column",
+            minHeight: "350px",
+            justifyContent: "space-evenly",
           }}
         >
           <Field

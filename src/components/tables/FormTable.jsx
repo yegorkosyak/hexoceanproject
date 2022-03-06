@@ -9,9 +9,7 @@ import {
 } from "@mui/material";
 
 export const FormTable = (data) => {
-  console.log(data);
   let convertedData = Object.entries(data.data);
-  console.log(convertedData);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
